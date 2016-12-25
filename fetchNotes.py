@@ -1,6 +1,3 @@
-# # encoding=utf8
-# import sys
-import linecache
 import re
 
 path = './My_Clippings_20161224.txt'
