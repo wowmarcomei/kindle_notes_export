@@ -1,5 +1,4 @@
 import re
-from datetime import datetime
 
 path = './My_Clippings.txt'
 makrdown = './words.md'
@@ -19,32 +18,38 @@ mywords_dict_len = len(mywords_dict)
 
 def parseWords(year,month,day):
     # 注意,open文件的时候一定要选择编码为utf-8
-    words = open(makrdown,'a+',encoding='utf-8')
-    words.write("| 单词 | 解释 | 例句 |\n| --------- | -------- | --------- |\n")
+    # words = open(makrdown,'a+',encoding='utf-8')
+    with open(makrdown,'a+',encoding='utf-8') as words:
+        # 以日期为标题，#h1格式
+        words.write("#{}-{}-{}\n".format(year,month,day))
+        # 写下markdown表格的标题部分
+        words.write("| 单词 | 解释 | 例句 |\n| --------- | -------- | --------- |\n")
 
-    for time in range(1,int(1+mywords_dict_len/5)):
-        num_list = mywords_dict[1+(time-1)*5]
-        # time_list = re.findall(r"[\d]+",num_list)
-        time_list = re.findall(r'\d{4}年\d{1,2}月\d{1,2}', num_list)
-        # print(time_list)
-        selected_time = re.findall(r'[\d]+', str(time_list))
-        # print(selected_time)
+        # 由于kindle标记内容是5个为1行，所以其记事本的行数一定为5的倍数，取每个标记的话就用字典长度除以5即可
+        for time in range(1,int(1+mywords_dict_len/5)):
+            # 包含有日期数据的是字典中每一块的第2行，然后每次加5就得到下一次的数字行
+            num_list = mywords_dict[1+(time-1)*5]
+            # 使用正则表达式提取日期部分字符串，返回列表
+            time_list = re.findall(r'\d{4}年\d{1,2}月\d{1,2}', num_list)
+            # 使用正则表达式进一步提取日期，返回列表，
+            selected_time = re.findall(r'[\d]+', str(time_list))
 
-        if int(selected_time[0]) == year and int(selected_time[1]) == month and int(selected_time[2]) == day:
-            #print("{} - {} - {}\n{}".format(year,month,day,mywords_dict[1+(time-1)*5+2]))
-            # 定义一个临时变量存储每行需要写入的单词或者语句,用于后续去掉字符串的换行符号
-            word_line = "|"+mywords_dict[1+(time-1)*5+2]+"| - | - |"
-            # 采用正则表达式去掉换行符号,但是返回结果是一个列表list,还需要将列表转换成字符串,采用join方法即可
-            word_line_new = ''.join(re.split(r'[\n]+',word_line))
-            # str1 = ''.join(word_line_new)
-            print(word_line_new)
-            # print(str(word_line_new))
-            # words.write(word_line+"\n")
-        else:
-            pass
+            # 判断年月日是否符合条件
+            if int(selected_time[0]) == year and int(selected_time[1]) == month and int(selected_time[2]) == day:
+                # 定义一个临时变量存储每行需要写入的单词或者语句（第4行）,加上markdown的表格标签"|",该变量最终是一个字符串
+                word_line = "|"+mywords_dict[3+(time-1)*5]+"| - | - |"
+                # 采用正则表达式去掉换行符号,但是返回结果是一个列表list,还需要将列表转换成字符串,采用join方法即可
+                word_line_new = ''.join(re.split(r'[\n]+',word_line))
+                # 写入markdown文件
+                words.write(word_line_new+'\n')
+            else:
+                pass
+        words.write('\n'*3)
 
-    words.close()
-
-        # print("word/sentence is: {}".format(mywords_dict[1+(time-1)*5+2]))
-
+parseWords(2016,12,2)
+parseWords(2016,12,3)
+parseWords(2016,12,5)
+parseWords(2016,12,22)
+parseWords(2016,12,23)
+parseWords(2016,12,24)
 parseWords(2016,12,25)
