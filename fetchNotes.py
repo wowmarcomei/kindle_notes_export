@@ -1,7 +1,7 @@
 import re
 
-path = './My_Clippings.txt'
-makrdown = './words.md'
+path = './static/My_Clippings.txt'
+makrdown = './static/words.md'
 
 def parseFile(path):
     '''
@@ -12,9 +12,6 @@ def parseFile(path):
     with open(path,'r',encoding='utf-8') as file:
         dict = {key: value for key,value in enumerate(file)}
     return dict
-
-# mywords_dict = parseFile(path)
-# mywords_dict_len = len(mywords_dict)
 
 def parseWords(year,month,day,dict=parseFile(path)):
     '''
