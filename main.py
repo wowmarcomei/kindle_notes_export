@@ -1,3 +1,25 @@
+# /**
+#  *   ┏┓　　　┏┓
+#  * ┏┛┻━━━┛┻┓
+#  * ┃　　　　　　　┃
+#  * ┃　　　━　　　┃
+#  * ┃　┳┛　┗┳　┃
+#  * ┃　　　　　　　┃
+#  * ┃　　　┻　　　┃
+#  * ┃　　　　　　　┃
+#  * ┗━┓　　　┏━┛
+#  *    ┃　　　┃
+#  *    ┃　　　┃
+#  *    ┃　　　┗━━━┓
+#  *    ┃　　　　　　　┣┓
+#  *    ┃　　　　　　　┏┛
+#  *    ┗┓┓┏━┳┓┏┛
+#  *      ┃┫┫　┃┫┫
+#  *      ┗┻┛　┗┻┛
+#  *        神兽保佑
+#  *        代码无BUG!
+#  */
+
 import sys
 import getopt
 
@@ -37,16 +59,6 @@ def main(argv=None):
         print("getopt error!");
         usage();
         sys.exit(1);
-
-
-    #         except (getopt.error):
-    #     raise Usage(getopt.error
-    #     # more code, unchanged
-    #     print("opts is: {}- argv is {}".format(opts, argv))
-    # except (Usage):
-    #     print("{}-{}".format(sys.stderr, Usage.msg))
-    #     print(sys.stderr + "for help use --help")
-    #     return 2
 
 if __name__ == "__main__":
     sys.exit(main())
