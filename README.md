@@ -11,12 +11,12 @@
 ### 2.运行程序
 >有两种方法可以执行,第一种方法直接在fetchNodes.py中修改程序指定日期,第二种方法为执行main.py,在命令行中指定日期
 
-1. 在fetchNotes.py中指定日期,如parseWords(2016,12,2)来导出12月1日的标记为markdown文件
+- 在fetchNotes.py中指定日期,如parseWords(2016,12,2)来导出12月1日的标记为markdown文件
 ```shell
 python3 fetchNotes.py
 ```
-2. 执行main.py文件
+- 执行main.py文件
 ```shell
 python3 main.py -t 2016-12-26
 ```
-3. 在static目录下即可生成words.md文件以供学习整理。
+- 在static目录下即可生成words.md文件以供学习整理。
