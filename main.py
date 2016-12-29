@@ -24,41 +24,40 @@ import sys
 import getopt
 
 class Usage(Exception):
-    def __init__(self, msg):
+    def __init__(self,msg):
         self.msg = msg
 
-def usage():
-    print("Usage:{} [-a|-o|-c] [--help|--output] args...." .format(sys.argv[0]));
-
 def main(argv=None):
+    date = None
+    output = None
+
     if argv is None:
-        # 获取命令行参数列表,如执行函数时:python main.py 2016,可以得到列表argv为['main.py', '2016']
         argv = sys.argv
-
     try:
-        # 提取命令行参数列表,过滤掉第一个参数,因为第一个参数一般为文件本身
-        # opts, args = getopt.getopt(argv[1:], "h", ["help"])
-
-        opts, args = getopt.getopt(sys.argv[1:], "ao:c", ["help", "output="])
-        print("============ opts ==================")
-        print(opts)
-        print("============ args ==================")
-        print(args)
-
-        # check all param
-        for opt, arg in opts:
-            if opt in ("-h", "--help"):
-                usage();
-                sys.exit(1);
-            elif opt in ("-t", "--test"):
-                print("for test option");
-            else:
-                print("{}  ==> {}".format(opt, arg))
-
-    except getopt.GetoptError:
-        print("getopt error!");
-        usage();
-        sys.exit(1);
+        try:
+            # 提取命令行的option选项与参数arguments
+            opts, args = getopt.getopt(argv[1:],'ht:o:',['help'])
+            # opts是一个元祖列表
+            for opt, value in opts:
+                if opt in ('-h','--help'):
+                    print("Usage: please input the date and output fine name, such as:\npython3 main.py -t 20161226 -o words.md")
+                if opt == '-t':
+                    date = value
+                    print(date)
+                if opt == '-o':
+                    output = value
+                    print(output)
+        except getopt.error as msg:
+            raise Usage(msg)
+        # more code, unchanged
+        if date == None or output == None:
+            print("input date and output completely please, for help use --help")
+    except Usage as err:
+        # print(sys.stderr + err.msg)
+        print(sys.stderr)
+        print(err.msg)
+        print("for help use --help")
+        return 2
 
 if __name__ == "__main__":
     sys.exit(main())
