@@ -1,6 +1,6 @@
 import re
 
-path = './static/My_Clippings.txt'
+path = './static/My_Clippings_20161227.txt'
 makrdown = './static/words_charpter_6.md'
 
 def parseFile(path):
@@ -47,6 +47,6 @@ def parseWords(year,month,day,dict=parseFile(path)):
                 pass
         words.write('\n'*3)
 
-parseWords(2016,12,25)
-parseWords(2016,12,26)
-parseWords(2016,12,27)
+# parseWords(2016,12,25)
+# parseWords(2016,12,26)
+# parseWords(2016,12,27)
