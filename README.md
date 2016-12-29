@@ -19,3 +19,4 @@ python3 fetchNotes.py
 ```shell
 python3 main.py -t 2016-12-26
 ```
+3. 在static目录下即可生成words.md文件以供学习整理。
