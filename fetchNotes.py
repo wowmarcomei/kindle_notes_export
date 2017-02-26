@@ -53,8 +53,14 @@ def parseWords(year,month,day,dict=None,output=None):
             selected_time = re.findall(r'[\d]+', str(time_list))
             # 判断年月日是否符合条件
             if int(selected_time[0]) == year and int(selected_time[1]) == month and int(selected_time[2]) == day:
+                # # 定义一个临时变量存储每行需要写入的单词或者语句（第4行）,加上markdown的表格标签"|",该变量最终是一个字符串
+                # word_line = "|"+dict[3+(time-1)*5]+"| - | - |"
                 # 定义一个临时变量存储每行需要写入的单词或者语句（第4行）,加上markdown的表格标签"|",该变量最终是一个字符串
-                word_line = "|"+dict[3+(time-1)*5]+"| - | - |"
+                # 同时判断第一列是否是单个单词还是语句，如果是单个单词，则给单词加粗，否则是语句的话就不加粗（以是否包含空格为判断单词/语句的依据）
+                if ' ' in dict[3+(time-1)*5]:
+                    word_line = "|"+dict[3+(time-1)*5]+"| - | - |"
+                else:
+                    word_line = "|"+"**"+dict[3+(time-1)*5]+"**"+"| - | - |"
                 # 采用正则表达式去掉换行符号,但是返回结果是一个列表list,还需要将列表转换成字符串,采用join方法即可
                 word_extract = ''.join(re.split(r'[\n]+',word_line))
                 # 写入markdown文件
