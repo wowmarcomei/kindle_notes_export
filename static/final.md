@@ -1,0 +1,1 @@
+ **英中** (1)n. 饼干；小面包（biscuit的复数形式） **英英** (1)small round bread leavened with baking-powder or soda **英英** (2)any of various small flat sweet cakes (`biscuit' is the British term)
