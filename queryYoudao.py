@@ -36,34 +36,40 @@ def queryYoudao(input=None,output=None):
         rooturl = 'http://www.youdao.com/w/'
 
         for i in range(0,len(input)):
+            print(input[i])
             url = rooturl + input[i]
 
             response = requests.get(url)
             soup = bs4.BeautifulSoup(response.text,'html.parser')
 
             res_num_chn2chn = len(soup.select('#phrsListTab > div.trans-container > ul > li'))
+            res_num_eng2eng = len(soup.select('#tEETrans > div > ul > li > ul > li > span'))
 
             print("查询出{}条英中结果".format(res_num_chn2chn))
             for i in range(1,res_num_chn2chn+1):
                 print("第{}次".format(i))
                 print(soup.select('#phrsListTab > div.trans-container > ul > li')[i-1].get_text())
-                finalmk.write(" **英中:** ({})".format(i)+soup.select('#phrsListTab > div.trans-container > ul > li')[i-1].get_text())
+                # finalmk.write(" **英中:** ({})".format(i)+soup.select('#phrsListTab > div.trans-container > ul > li')[i-1].get_text())
 
-            res_num_eng2eng = len(soup.select('#tEETrans > div > ul > li > ul > li > span'))
             print("查询出{}条中英结果".format(res_num_eng2eng))
             for i in range(1,res_num_eng2eng+1):
                 print("第{}次".format(i))
                 print(soup.select('#tEETrans > div > ul > li > ul > li > span')[i-1].get_text())
-                finalmk.write(" **英英:** ({})".format(i)+soup.select('#tEETrans > div > ul > li > ul > li > span')[i - 1].get_text())
+                # finalmk.write(" **英英:** ({})".format(i)+soup.select('#tEETrans > div > ul > li > ul > li > span')[i - 1].get_text())
+
+
 
 extract_Words_Sentences(input='static'+'/'+'words_chapters_mxh.md',output_words=words,output_sentences=sentences)
-print('====' * 10 + '\n')
-print('globle variables are:\n words:{}\nsentences:{}'.format(words,sentences))
+# print('====' * 10 + '\n')
+# print('globle variables are:\n words:{}\nsentences:{}'.format(words,sentences))
 
 queryYoudao(input=words,output='static'+'/'+'final.md')
 
 def output_final_markdown():
-
+    '''
+    输出最终的markdown文件
+    :return:
+    '''
     # 找出单词所在的句子
     for i in range(0, len(words)):
         for j in range(0, len(sentences)):
