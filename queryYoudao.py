@@ -17,9 +17,7 @@ def extract_Words_Sentences(input=None,output_words=None,output_sentences=None):
     :return: NULL
     '''
     file = open(input,'r',encoding='utf-8')
-
     markdown_str = file.read()
-
     regex = [r'(?<=\|\*{2}).+?(?=\.?\,?\!?\:?\;?\"?\*{2}\|)',r'((?<=\|)[^\w\|]*(\w+\s+(?=\w+)[^\|]*))']
 
     for item in range(0,2):
@@ -29,40 +27,45 @@ def extract_Words_Sentences(input=None,output_words=None,output_sentences=None):
                 output_words.append(match.group(0))
             else:
                 output_sentences.append(match.group(0))
-
     file.close()
 
-extract_Words_Sentences(input='static'+'/'+'words_chapters_mxh.md',output_words=words,output_sentences=sentences)
-
-print('====' * 10 + '\n')
-print('globle variables are:\n words:{}\nsentences:{}'.format(words,sentences))
-
 def queryYoudao(input=None,output=None):
-    with open(output, 'a+', encoding='utf-8') as finalmk:
+    with open(output, 'w', encoding='utf-8') as finalmk:
         print("到有道词典网站查询单词单词,抓取释义!")
 
         rooturl = 'http://www.youdao.com/w/'
-        url = rooturl + 'biscuits'
-        result = {}
 
-        response = requests.get(url)
-        soup = bs4.BeautifulSoup(response.text,'html.parser')
-        word = soup.select('.keyword')[0].get_text()
+        for i in range(0,len(input)):
+            url = rooturl + input[i]
 
-        res_num_chn2chn = len(soup.select('#phrsListTab > div.trans-container > ul > li'))
+            response = requests.get(url)
+            soup = bs4.BeautifulSoup(response.text,'html.parser')
 
-        print("查询出{}条英中结果".format(res_num_chn2chn))
-        for i in range(1,res_num_chn2chn+1):
-            print("第{}次".format(i))
-            print(soup.select('#phrsListTab > div.trans-container > ul > li')[i-1].get_text())
-            finalmk.write(" **英中:** ({})".format(i)+soup.select('#phrsListTab > div.trans-container > ul > li')[i-1].get_text())
+            res_num_chn2chn = len(soup.select('#phrsListTab > div.trans-container > ul > li'))
 
-        res_num_eng2eng = len(soup.select('#tEETrans > div > ul > li > ul > li > span'))
-        print("查询出{}条中英结果".format(res_num_eng2eng))
-        for i in range(1,res_num_eng2eng+1):
-            print("第{}次".format(i))
-            # print(soup.select('#tEETrans > div > ul > li > span')[i-1].get_text())
-            print(soup.select('#tEETrans > div > ul > li > ul > li > span')[i-1].get_text())
-            finalmk.write(" **英英:** ({})".format(i)+soup.select('#tEETrans > div > ul > li > ul > li > span')[i - 1].get_text())
+            print("查询出{}条英中结果".format(res_num_chn2chn))
+            for i in range(1,res_num_chn2chn+1):
+                print("第{}次".format(i))
+                print(soup.select('#phrsListTab > div.trans-container > ul > li')[i-1].get_text())
+                finalmk.write(" **英中:** ({})".format(i)+soup.select('#phrsListTab > div.trans-container > ul > li')[i-1].get_text())
 
-queryYoudao(output='static'+'/'+'final.md')
+            res_num_eng2eng = len(soup.select('#tEETrans > div > ul > li > ul > li > span'))
+            print("查询出{}条中英结果".format(res_num_eng2eng))
+            for i in range(1,res_num_eng2eng+1):
+                print("第{}次".format(i))
+                print(soup.select('#tEETrans > div > ul > li > ul > li > span')[i-1].get_text())
+                finalmk.write(" **英英:** ({})".format(i)+soup.select('#tEETrans > div > ul > li > ul > li > span')[i - 1].get_text())
+
+extract_Words_Sentences(input='static'+'/'+'words_chapters_mxh.md',output_words=words,output_sentences=sentences)
+print('====' * 10 + '\n')
+print('globle variables are:\n words:{}\nsentences:{}'.format(words,sentences))
+
+queryYoudao(input=words,output='static'+'/'+'final.md')
+
+def output_final_markdown():
+
+    # 找出单词所在的句子
+    for i in range(0, len(words)):
+        for j in range(0, len(sentences)):
+            if words[i] in sentences[j]:
+                print("word:'{}' is in the sentence:{}\n".format(words[i], sentences[j]))
