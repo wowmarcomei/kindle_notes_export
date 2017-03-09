@@ -35,8 +35,10 @@ def queryYoudao(input=None,output=None):
 
         rooturl = 'http://www.youdao.com/w/'
 
+        dict = {}
+
         for i in range(0,len(input)):
-            print(input[i])
+            # print(input[i])
             url = rooturl + input[i]
 
             response = requests.get(url)
@@ -45,18 +47,25 @@ def queryYoudao(input=None,output=None):
             res_num_chn2chn = len(soup.select('#phrsListTab > div.trans-container > ul > li'))
             res_num_eng2eng = len(soup.select('#tEETrans > div > ul > li > ul > li > span'))
 
+            shiyi = ''
             print("查询出{}条英中结果".format(res_num_chn2chn))
             for i in range(1,res_num_chn2chn+1):
-                print("第{}次".format(i))
-                print(soup.select('#phrsListTab > div.trans-container > ul > li')[i-1].get_text())
+                # print("第{}次".format(i))
+                # print(soup.select('#phrsListTab > div.trans-container > ul > li')[i-1].get_text())
                 # finalmk.write(" **英中:** ({})".format(i)+soup.select('#phrsListTab > div.trans-container > ul > li')[i-1].get_text())
+                shiyi.join(soup.select('#phrsListTab > div.trans-container > ul > li')[i-1].get_text())
+                print("shiyi 1: {}".format(shiyi))
 
             print("查询出{}条中英结果".format(res_num_eng2eng))
             for i in range(1,res_num_eng2eng+1):
-                print("第{}次".format(i))
-                print(soup.select('#tEETrans > div > ul > li > ul > li > span')[i-1].get_text())
+                # print("第{}次".format(i))
+                # print(soup.select('#tEETrans > div > ul > li > ul > li > span')[i-1].get_text())
                 # finalmk.write(" **英英:** ({})".format(i)+soup.select('#tEETrans > div > ul > li > ul > li > span')[i - 1].get_text())
-
+                shiyi.join(soup.select('#tEETrans > div > ul > li > ul > li > span')[i-1].get_text())
+                print("shiyi 2: {}".format(shiyi))
+            # print("单词为:{}\n".format(input[i]))
+            # print("解释为:{}\n".format(shiyi))
+            # print("*"*20+'\n')
 
 
 extract_Words_Sentences(input='static'+'/'+'words_chapters_mxh.md',output_words=words,output_sentences=sentences)
