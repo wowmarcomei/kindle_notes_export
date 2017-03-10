@@ -24,8 +24,10 @@ def extract_Words_Sentences(input=None,output_words=None,output_sentences=None):
         matches = re.finditer(regex[item],markdown_str)
         for matchNum, match in enumerate(matches):
             if item == 0:
+                # 输出单词
                 output_words.append(match.group(0))
             else:
+                # 输出句子
                 output_sentences.append(match.group(0))
     file.close()
 
@@ -35,44 +37,26 @@ def queryYoudao(input=None,output=None):
 
         rooturl = 'http://www.youdao.com/w/'
 
-        dict = {}
-
-        for i in range(0,len(input)):
-            # print(input[i])
-            url = rooturl + input[i]
+        for item in range(0,len(input)):
+            url = rooturl + input[item]
 
             response = requests.get(url)
             soup = bs4.BeautifulSoup(response.text,'html.parser')
 
-            res_num_chn2chn = len(soup.select('#phrsListTab > div.trans-container > ul > li'))
-            res_num_eng2eng = len(soup.select('#tEETrans > div > ul > li > ul > li > span'))
+            chn2eng = soup.select('#phrsListTab > div.trans-container > ul > li')
+            eng2eng = soup.select('#tEETrans > div > ul > li > ul > li > span')
 
             shiyi = ''
-            print("查询出{}条英中结果".format(res_num_chn2chn))
-            for i in range(1,res_num_chn2chn+1):
-                # print("第{}次".format(i))
-                # print(soup.select('#phrsListTab > div.trans-container > ul > li')[i-1].get_text())
-                # finalmk.write(" **英中:** ({})".format(i)+soup.select('#phrsListTab > div.trans-container > ul > li')[i-1].get_text())
-                shiyi.join(soup.select('#phrsListTab > div.trans-container > ul > li')[i-1].get_text())
-                print("shiyi 1: {}".format(shiyi))
+            for i in range(0,len(chn2eng)):
+                # print("shiyi {}: {}".format(i,chn2eng[i].get_text()))
+                shiyi = shiyi+chn2eng[i].get_text()+ "  |  "
 
-            print("查询出{}条中英结果".format(res_num_eng2eng))
-            for i in range(1,res_num_eng2eng+1):
-                # print("第{}次".format(i))
-                # print(soup.select('#tEETrans > div > ul > li > ul > li > span')[i-1].get_text())
-                # finalmk.write(" **英英:** ({})".format(i)+soup.select('#tEETrans > div > ul > li > ul > li > span')[i - 1].get_text())
-                shiyi.join(soup.select('#tEETrans > div > ul > li > ul > li > span')[i-1].get_text())
-                print("shiyi 2: {}".format(shiyi))
-            # print("单词为:{}\n".format(input[i]))
-            # print("解释为:{}\n".format(shiyi))
-            # print("*"*20+'\n')
-
-
-extract_Words_Sentences(input='static'+'/'+'words_chapters_mxh.md',output_words=words,output_sentences=sentences)
-# print('====' * 10 + '\n')
-# print('globle variables are:\n words:{}\nsentences:{}'.format(words,sentences))
-
-queryYoudao(input=words,output='static'+'/'+'final.md')
+            for i in range(0,len(eng2eng)):
+                # print("shiyi {}: {}".format(i,eng2eng[i].get_text()))
+                shiyi = shiyi+eng2eng[i].get_text()+ "  |  "
+            print("============================\n查出{}个中文释义,{}个英文释义\n".format(len(chn2eng),len(eng2eng)))
+            print("单词: {}\n释义: {}\n".format(input[item],shiyi))
+            print("****************************\n")
 
 def output_final_markdown():
     '''
@@ -84,3 +68,9 @@ def output_final_markdown():
         for j in range(0, len(sentences)):
             if words[i] in sentences[j]:
                 print("word:'{}' is in the sentence:{}\n".format(words[i], sentences[j]))
+
+extract_Words_Sentences(input='static'+'/'+'words_chapters_mxh.md',output_words=words,output_sentences=sentences)
+
+print("words are: {}\nsentences are: {}".format(words,sentences))
+
+queryYoudao(input=words,output='static'+'/'+'final.md')
