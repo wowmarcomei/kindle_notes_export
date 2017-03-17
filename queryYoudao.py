@@ -1,3 +1,25 @@
+# /**
+#  *   ┏┓　　　┏┓
+#  * ┏┛┻━━━┛┻┓
+#  * ┃　　　　　　　┃
+#  * ┃　　　━　　　┃
+#  * ┃　┳┛　┗┳　┃
+#  * ┃　　　　　　　┃
+#  * ┃　　　┻　　　┃
+#  * ┃　　　　　　　┃
+#  * ┗━┓　　　┏━┛
+#  *    ┃　　　┃
+#  *    ┃　　　┃
+#  *    ┃　　　┗━━━┓
+#  *    ┃　　　　　　　┣┓
+#  *    ┃　　　　　　　┏┛
+#  *    ┗┓┓┏━┳┓┏┛
+#  *      ┃┫┫　┃┫┫
+#  *      ┗┻┛　┗┻┛
+#  *        神兽保佑
+#  *        代码无BUG!
+#  */
+
 import requests
 import bs4
 import os
@@ -8,7 +30,7 @@ import re
 
 words,explainations,sentences = [],[],[]
 
-def extract_Words_Sentences(input=None,output_words=None,output_sentences=None):
+def extract_words_sentences(input=None,output_words=None,output_sentences=None):
     '''
     extract the words and sentences from the markdown files
     :param input: the source file
@@ -33,7 +55,7 @@ def extract_Words_Sentences(input=None,output_words=None,output_sentences=None):
     print("解析单词语句结束...\n")
     file.close()
 
-def queryYoudao(input=None):
+def query_youdao(input=None):
     '''
     查询有道词典,输入单词列表,返回单词解释
     :param input:
@@ -78,7 +100,7 @@ def output_final_markdown(final_markdown=None):
             for j in range(0, len(sentences)):
                 if words[i] in sentences[j]:
                     print("word: {}\nexplaination: {}\nsentences: {}\n========end[{}]=========\n".format(words[i], explainations[i],sentences[j],i+1))
-                    markdown.write("|{}|{}|{}|\n".format(words[i],explainations[i],sentences[j]))
+                    markdown.write("|**{}**|{}|{}|\n".format(words[i],explainations[i],sentences[j]))
                 else:
                     word_in_sentences = True
             if word_in_sentences:
@@ -86,6 +108,3 @@ def output_final_markdown(final_markdown=None):
                 print("word: {}\nexplaination: {}\n========end[{}]=========\n".format(words[i], explainations[i],i+1))
                 markdown.write("|{}|{}|- |\n".format(words[i],explainations[i]))
 
-extract_Words_Sentences(input='static'+'/'+'words_chapters_mxh.md',output_words=words,output_sentences=sentences)
-queryYoudao(input=words)
-output_final_markdown(final_markdown='static'+'/'+'final_output.md')
