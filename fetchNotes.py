@@ -42,7 +42,7 @@ def parseWords(year,month,day,dict=None,output=None):
     :return: NULL
     '''
     # 注意,open文件的时候一定要选择编码为utf-8
-    with open(output,'a+',encoding='utf-8') as words:
+    with open(output,'w',encoding='utf-8') as words:
         # 以日期为标题，#h1格式,换行后写入表格标题
         words.write("#{}-{}-{}\n| 单词 | 解释 | 例句 |\n| --------- | -------- | --------- |\n".format(year,month,day))
         # 由于kindle标记内容是5行为1块，所以其记事本的行数一定为5的倍数，取每个标记的话就用字典长度除以5即可

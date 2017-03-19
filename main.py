@@ -76,7 +76,7 @@ def main(argv=None):
             extract_words_sentences(prefix+'/'+'tmp.md', output_words=words,output_sentences=sentences)
             query_youdao(input=words)
             output_final_markdown(final_markdown=prefix + '/' + output)
-
+            # print(words,sentences,sep='\n\n\n')
 
     except Usage as err:
         print(sys.stderr)
